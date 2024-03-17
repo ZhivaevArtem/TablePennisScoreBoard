@@ -15,9 +15,12 @@ class Game {
 
   /**
    * @param serve {'left' | 'right'}
+   * @param winScore {number=}
    */
-  constructor(serve) {
+  constructor(serve, winScore) {
     this.#serve = serve
+    if (winScore && winScore >= 1 && winScore <= 99)
+      this.#winScore = winScore
   }
 
   #changeServe() {
@@ -107,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const restartButton = document.getElementById('reset')
   const undoButton = document.getElementById('undo')
+  const winScoreInput = document.getElementById('win-score-input')
 
   const winLeft = document.getElementById('win-left')
   const winRight = document.getElementById('win-right')
@@ -141,11 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
       winLeft.hidden = true
       scoreLeftField.hidden = false
       scoreRightField.hidden = false
+      winScoreInput.removeAttribute('disabled')
     } else {
       scoreLeftField.textContent = String(state.game.getScoreLeft())
       scoreRightField.textContent = String(state.game.getScoreRight())
       serveIndicator.classList.remove('serve-right', 'serve-left')
       serveIndicator.classList.add(state.game.whoServe() === 'left' ? 'serve-left' : 'serve-right')
+      winScoreInput.setAttribute('disabled', 'true')
 
       const win = state.game.checkWin()
       if (win === 'left') {
@@ -163,9 +169,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function getWinScoreFromInput() {
+    let winScore = parseInt(winScoreInput.value)
+    if (isNaN(winScore) || winScore < 1 || winScore > 99) return 11
+    return winScore
+  }
+
   function leftClick() {
     if (state.game == null) {
-      state.game = new Game('left')
+      state.game = new Game('left', getWinScoreFromInput())
     } else if (!state.game.checkWin()) {
       state.game.addScore('left')
     }
@@ -174,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function rightClick() {
     if (state.game == null) {
-      state.game = new Game('right')
+      state.game = new Game('right', getWinScoreFromInput())
     } else if (!state.game.checkWin()) {
       state.game.addScore('right')
     }
