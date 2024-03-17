@@ -151,10 +151,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (win === 'left') {
         winLeft.hidden = false
         scoreLeftField.hidden = true
-      }
-      if (win === 'right') {
+      } else if (win === 'right') {
         winRight.hidden = false
         scoreRightField.hidden = true
+      } else {
+        winRight.hidden = true
+        winLeft.hidden = true
+        scoreRightField.hidden = false
+        scoreLeftField.hidden = false
       }
     }
   }
