@@ -115,6 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const winLeft = document.getElementById('win-left')
   const winRight = document.getElementById('win-right')
 
+  const resetConfirmationModal = document.getElementById('reset-confirm')
+  const resetConfirmationModalWindow = document.getElementById('reset-confirm-window')
+  const resetConfirmationModalOk = document.getElementById('reset-confirm-ok')
+  const resetConfirmationModalCancel = document.getElementById('reset-confirm-cancel')
+
   /**
    *
    * @type {{game: Game | null}}
@@ -193,8 +198,38 @@ document.addEventListener('DOMContentLoaded', () => {
     update()
   }
 
-  restartButton.addEventListener('click', init)
+  function openResetConfirmationModal() {
+    resetConfirmationModal.hidden = false
+    setTimeout(() => document.addEventListener('click', resetConfirmationModalOutsideClick))
+  }
+
+  function closeResetConfirmationModal() {
+    document.removeEventListener('click', resetConfirmationModalOutsideClick)
+    resetConfirmationModal.hidden = true
+  }
+
+  function confirmReset() {
+    openResetConfirmationModal()
+  }
+
+  function confirmResetOk() {
+    init()
+    closeResetConfirmationModal()
+  }
+
+  function confirmResetCancel() {
+    closeResetConfirmationModal()
+  }
+
+  function resetConfirmationModalOutsideClick(click) {
+    resetConfirmationModalWindow.contains(click.target) || closeResetConfirmationModal()
+  }
+
+  restartButton.addEventListener('click', confirmReset)
   undoButton.addEventListener('click', undo)
+
+  resetConfirmationModalOk.addEventListener('click', confirmResetOk)
+  resetConfirmationModalCancel.addEventListener('click', confirmResetCancel)
 
   scoreLeftButton.addEventListener('click', leftClick)
   scoreRightButton.addEventListener('click', rightClick)

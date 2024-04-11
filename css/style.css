@@ -333,4 +333,47 @@ textarea {
 .control-input {
   height: 40px;
 }
+
+.modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__window {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.modal__buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.modal__ok, .modal__cancel {
+  width: 120px;
+  height: 32px;
+}
+
+.modal__title {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: Arial;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.modal__content {
+  font-size: 16px;
+  font-family: Arial;
+}
 /* endregion: app styles */
