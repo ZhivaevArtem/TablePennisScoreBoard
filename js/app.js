@@ -225,6 +225,32 @@ document.addEventListener('DOMContentLoaded', () => {
     resetConfirmationModalWindow.contains(click.target) || closeResetConfirmationModal()
   }
 
+  function keyDownHandler(event) {
+    if (document.activeElement === winScoreInput) {
+      return
+    }
+    switch (event.key) {
+      case 'ArrowLeft':
+        leftClick()
+        break
+      case 'ArrowRight':
+        rightClick()
+        break
+      case 'ArrowDown':
+        confirmReset()
+        break
+      case 'ArrowUp':
+        undo()
+        break
+      case 'Escape':
+        confirmResetCancel()
+        break
+      case 'Enter':
+        setTimeout(() => confirmResetOk())
+        break
+    }
+  }
+
   restartButton.addEventListener('click', confirmReset)
   undoButton.addEventListener('click', undo)
 
@@ -233,4 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   scoreLeftButton.addEventListener('click', leftClick)
   scoreRightButton.addEventListener('click', rightClick)
+
+  document.addEventListener('keydown', keyDownHandler)
 })
